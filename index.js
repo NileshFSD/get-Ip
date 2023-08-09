@@ -16,11 +16,21 @@ app.get("/", async (req, res) => {
     // const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     // const socketIp = req.socket.localAddress
 
-    var apiClientIp;
+    var ipApi;
     await axios
       .get("https://ipapi.co/json/")
       .then((response) => {
-        apiClientIp = response.data.ip;
+        ipApi = response.data.ip;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    var ipInfo;
+    await axios
+      .get("https://ipinfo.io/json/")
+      .then((response) => {
+        ipInfo = response.data.ip;
       })
       .catch((error) => {
         console.log(error);
@@ -30,7 +40,7 @@ app.get("/", async (req, res) => {
     return res.status(200).json({
       status: true,
       message: "User Ip retrived successfully",
-      ip: { npm: userIp, api: apiClientIp },
+      ip: { npm: userIp, ipApi, ipInfo },
     });
   } catch (error) {
     console.log(error);
