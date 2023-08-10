@@ -41,20 +41,14 @@ app.get("/", async (req, res) => {
         console.log(error);
       });
 
-    extIP.get().then(
-      (ip) => {
-        console.log(ip);
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    const ext = extIP.get();
+    const extIp = await ext;
 
     // const userIp = await publicIpv4();
     return res.status(200).json({
       status: true,
       message: "User Ip retrived successfully",
-      ip: { ipInfo },
+      ip: { ipInfo, extIp },
     });
   } catch (error) {
     console.log(error);
