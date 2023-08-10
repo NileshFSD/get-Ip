@@ -28,6 +28,4 @@ const req = http.request(options, (res) => {
 });
 
 // Send the request
-req.end().listeners(4900, (res) => {
-  console.log(`The app running is in http://localhost:4900`);
-});
+req.end();
