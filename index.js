@@ -9,7 +9,7 @@ let extIP = require("ext-ip")({
   userAgent: "curl/ext-ip-getter",
   followRedirect: true,
   maxRedirects: 10,
-  services: ["http://ifconfig.co/x-real-ip", "http://ifconfig.io/ip"],
+  services: ["http://ifconfig.io/ip"],
 });
 const dotenv = require("dotenv").config();
 
@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT;
+const PORT = 4920;
 app.listen(PORT, (res) => {
   console.log(`The app running is in http://localhost:${PORT}`);
 });
