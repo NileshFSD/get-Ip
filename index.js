@@ -1,17 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const { default: axios } = require("axios");
 const app = express();
-let extIP = require("ext-ip")({
-  mode: "parallel",
-  replace: true,
-  timeout: 500,
-  agent: http.Agent,
-  userAgent: "curl/ext-ip-getter",
-  followRedirect: true,
-  maxRedirects: 10,
-  services: ["http://ifconfig.io/ip"],
-});
-const dotenv = require("dotenv").config();
 
 // CORS
 app.use(cors());
@@ -23,13 +13,20 @@ app.use(express.json({ limit: "1mb" }));
 app.get("/", async (req, res) => {
   try {
     // using  npm ext-ip------------------
-    const ext = extIP.get();
-    const extIp = await ext;
+    var ipInfo;
+    await axios
+      .get("https://checkip.amazonaws.com/")
+      .then((response) => {
+        ipInfo = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     return res.status(200).json({
       status: true,
       message: "User Ip retrieved successfully",
-      ip: { extIp },
+      ip: ipInfo,
     });
   } catch (error) {
     console.log(error);
